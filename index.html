@@ -1279,6 +1279,20 @@
             transform: scale(1.05);
         }
 
+        .task-data-action {
+            padding: 8px 12px;
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .task-data-action:hover {
+            transform: scale(1.05);
+        }
+
         .modal-footer {
             padding: 16px 0 0;
             border-top: 1px solid var(--border-glass);
@@ -1852,25 +1866,22 @@
                             <span style="font-size: 14px; font-weight: 600; color: var(--text-primary);">选择时间范围</span>
                             <button onclick="toggleDateRangeFilter()" style="background: none; border: none; color: var(--text-tertiary); font-size: 18px; cursor: pointer;">✕</button>
                         </div>
-                        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
-                            <div style="flex: 1;">
-                                <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;">开始日期</div>
-                                <input type="date" id="statsDateStart" onchange="onStatsDateRangeChange()" style="width: 100%; padding: 10px 12px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px;">
-                            </div>
-                            <span style="color: var(--text-tertiary); padding-top: 16px;">→</span>
-                            <div style="flex: 1;">
-                                <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;">结束日期</div>
-                                <div style="display: flex; gap: 8px;">
-                                    <input type="date" id="statsDateEnd" onchange="onStatsDateRangeChange()" style="flex: 1; padding: 10px 12px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px;">
-                                    <button id="btnUntilNow" onclick="setEndDateToNow()" style="padding: 10px 12px; background: var(--primary-light); border: 1px solid var(--primary); border-radius: var(--radius-sm); font-size: 12px; color: var(--primary); cursor: pointer; white-space: nowrap;">至今</button>
-                                </div>
+                        <div style="margin-bottom: 12px;">
+                            <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;">开始日期</div>
+                            <input type="date" id="statsDateStart" onchange="onStatsDateRangeChange()" style="width: 100%; padding: 10px 12px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px; box-sizing: border-box;">
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px;">结束日期</div>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="date" id="statsDateEnd" onchange="onStatsDateRangeChange()" style="flex: 1; min-width: 0; padding: 10px 12px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px; box-sizing: border-box;">
+                                <button id="btnUntilNow" onclick="setEndDateToNow()" style="padding: 10px 12px; background: var(--primary-light); border: 1px solid var(--primary); border-radius: var(--radius-sm); font-size: 12px; color: var(--primary); cursor: pointer; white-space: nowrap; flex-shrink: 0;">至今</button>
                             </div>
                         </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button onclick="setQuickDateRange('week')" style="flex: 1; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer;">本周</button>
-                            <button onclick="setQuickDateRange('month')" style="flex: 1; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer;">本月</button>
-                            <button onclick="setQuickDateRange('year')" style="flex: 1; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer;">本年</button>
-                            <button onclick="clearDateRange()" style="flex: 1; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--danger); cursor: pointer;">全部</button>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button onclick="setQuickDateRange('week')" style="flex: 1; min-width: 60px; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer;">本周</button>
+                            <button onclick="setQuickDateRange('month')" style="flex: 1; min-width: 60px; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer;">本月</button>
+                            <button onclick="setQuickDateRange('year')" style="flex: 1; min-width: 60px; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary); cursor: pointer;">本年</button>
+                            <button onclick="clearDateRange()" style="flex: 1; min-width: 60px; padding: 8px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--danger); cursor: pointer;">全部</button>
                         </div>
                     </div>
 
@@ -2226,17 +2237,43 @@
                 delete stats[taskName];
                 this.saveTaskStats(stats);
             },
+            // ========== 隐藏任务功能 ==========
+            getHiddenTasks() {
+                const hidden = localStorage.getItem('hiddenTasks');
+                return hidden ? JSON.parse(hidden) : [];
+            },
+            saveHiddenTasks(hiddenTasks) {
+                localStorage.setItem('hiddenTasks', JSON.stringify(hiddenTasks));
+            },
+            hideTask(taskName) {
+                const hidden = this.getHiddenTasks();
+                if (!hidden.includes(taskName)) {
+                    hidden.push(taskName);
+                    this.saveHiddenTasks(hidden);
+                }
+            },
+            showTask(taskName) {
+                let hidden = this.getHiddenTasks();
+                hidden = hidden.filter(name => name !== taskName);
+                this.saveHiddenTasks(hidden);
+            },
+            isTaskHidden(taskName) {
+                return this.getHiddenTasks().includes(taskName);
+            },
             // 获取所有任务统计（按时长排序，时长相同按次数排序）
             getAllTaskStatsSorted() {
                 const stats = this.getTaskStats();
-                return Object.values(stats).sort((a, b) => {
-                    // 先按时长排序（降序）
-                    if (b.totalDuration !== a.totalDuration) {
-                        return b.totalDuration - a.totalDuration;
-                    }
-                    // 时长相同按次数排序（降序）
-                    return b.completedCount - a.completedCount;
-                });
+                const hiddenTasks = this.getHiddenTasks();
+                return Object.values(stats)
+                    .filter(stat => (stat.totalDuration > 0 || stat.completedCount > 0) && !hiddenTasks.includes(stat.name))
+                    .sort((a, b) => {
+                        // 先按时长排序（降序）
+                        if (b.totalDuration !== a.totalDuration) {
+                            return b.totalDuration - a.totalDuration;
+                        }
+                        // 时长相同按次数排序（降序）
+                        return b.completedCount - a.completedCount;
+                    });
             },
             // 获取筛选后的任务统计（基于实际任务实例计算）
             getFilteredTaskStats(filter = 'all') {
@@ -2324,6 +2361,7 @@
             // 获取自定义日期范围的统计
             getDateRangeTaskStats(dateStart, dateEnd) {
                 const instances = this.getTaskInstances();
+                const hiddenTasks = this.getHiddenTasks();
                 const startTimestamp = new Date(dateStart).getTime();
                 const endTimestamp = dateEnd 
                     ? new Date(dateEnd).getTime() + 86400000 
@@ -2337,6 +2375,9 @@
 
                     instances[dateStr].forEach(task => {
                         const taskName = task.name;
+                        // 跳过隐藏的任务
+                        if (hiddenTasks.includes(taskName)) return;
+                        
                         if (!statsMap[taskName]) {
                             statsMap[taskName] = {
                                 name: taskName,
@@ -3127,8 +3168,7 @@
             }
             
             const totalHours = Math.floor(totalSeconds / 3600);
-            const totalMinutes = Math.floor((totalSeconds % 3600) / 60);
-            const totalTimeStr = totalHours > 0 ? `${totalHours}小时${totalMinutes}分钟` : `${totalMinutes}分钟`;
+            const totalTimeStr = `${totalHours}小时`;
             document.getElementById('statsCompletedTasks').textContent = totalTimeStr;
 
             // 渲染本周图表
@@ -3329,9 +3369,12 @@
         // 渲染任务数据列表
         function renderTaskDataList() {
             const container = document.getElementById('taskDataList');
-            const stats = DataManager.getAllTaskStatsSorted();
+            // 获取所有有数据的任务（包括隐藏的，用于管理）
+            const allStats = Object.values(DataManager.getTaskStats())
+                .filter(stat => stat.totalDuration > 0 || stat.completedCount > 0);
+            const hiddenTasks = DataManager.getHiddenTasks();
 
-            if (stats.length === 0) {
+            if (allStats.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-icon">📊</div>
@@ -3341,32 +3384,75 @@
                 return;
             }
 
-            container.innerHTML = stats.map(stat => {
-                const hours = Math.floor(stat.totalDuration / 3600);
-                const minutes = Math.floor((stat.totalDuration % 3600) / 60);
-                const isQuickTask = stat.taskType === 'quick';
-                const icon = isQuickTask ? '⚡' : '⏱️';
-                
-                let durationText;
-                if (stat.totalDuration > 0) {
-                    durationText = hours > 0 ? `${hours}小时${minutes}分钟` : `${minutes}分钟`;
-                } else {
-                    durationText = '无专注时长';
-                }
+            // 分离显示的和隐藏的任务
+            const visibleStats = allStats.filter(stat => !hiddenTasks.includes(stat.name));
+            const hiddenStats = allStats.filter(stat => hiddenTasks.includes(stat.name));
 
-                return `
-                    <div class="task-data-item">
-                        <div class="task-data-icon">${icon}</div>
-                        <div class="task-data-info">
-                            <div class="task-data-name">${stat.name}</div>
-                            <div class="task-data-stats">
-                                ${durationText} · 完成 ${stat.completedCount} 次
-                            </div>
+            let html = '';
+
+            // 显示的任务
+            if (visibleStats.length > 0) {
+                html += `<div style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px; padding-left: 8px;">显示中 (${visibleStats.length})</div>`;
+                html += visibleStats.map(stat => renderTaskDataItem(stat, false)).join('');
+            }
+
+            // 隐藏的任务
+            if (hiddenStats.length > 0) {
+                html += `<div style="font-size: 12px; color: var(--text-tertiary); margin: 16px 0 8px 8px;">已隐藏 (${hiddenStats.length})</div>`;
+                html += hiddenStats.map(stat => renderTaskDataItem(stat, true)).join('');
+            }
+
+            container.innerHTML = html;
+        }
+
+        // 渲染单个任务数据项
+        function renderTaskDataItem(stat, isHidden) {
+            const hours = Math.floor(stat.totalDuration / 3600);
+            const minutes = Math.floor((stat.totalDuration % 3600) / 60);
+            const isQuickTask = stat.taskType === 'quick';
+            const icon = isQuickTask ? '⚡' : '⏱️';
+            
+            let durationText;
+            if (stat.totalDuration > 0) {
+                durationText = hours > 0 ? `${hours}小时${minutes}分钟` : `${minutes}分钟`;
+            } else {
+                durationText = '无专注时长';
+            }
+
+            const hideBtn = isHidden 
+                ? `<button class="task-data-action" onclick="toggleTaskVisibility('${stat.name}', false)" style="background: var(--success-light); color: var(--success);">显示</button>`
+                : `<button class="task-data-action" onclick="toggleTaskVisibility('${stat.name}', true)" style="background: var(--bg-glass); color: var(--text-secondary);">隐藏</button>`;
+
+            const opacity = isHidden ? 'opacity: 0.5;' : '';
+
+            return `
+                <div class="task-data-item" style="${opacity}">
+                    <div class="task-data-icon">${icon}</div>
+                    <div class="task-data-info">
+                        <div class="task-data-name">${stat.name}</div>
+                        <div class="task-data-stats">
+                            ${durationText} · 完成 ${stat.completedCount} 次
                         </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        ${hideBtn}
                         <button class="task-data-delete" onclick="confirmDeleteTaskStat('${stat.name}')">删除</button>
                     </div>
-                `;
-            }).join('');
+                </div>
+            `;
+        }
+
+        // 切换任务显示/隐藏
+        function toggleTaskVisibility(taskName, hide) {
+            if (hide) {
+                DataManager.hideTask(taskName);
+                showToast('✅ 任务已隐藏');
+            } else {
+                DataManager.showTask(taskName);
+                showToast('✅ 任务已显示');
+            }
+            renderTaskDataList();
+            renderTaskRank();
         }
 
         // 确认删除任务统计数据
@@ -3602,6 +3688,9 @@
                     dateStartInput.value = savedRange.start;
                     dateEndInput.value = savedRange.end || '';
                     updateDateRangeLabel(savedRange.start, savedRange.end);
+                } else {
+                    // 没有设置时间范围，显示"全部时间"
+                    updateDateRangeLabel('', '');
                 }
             }
         }
