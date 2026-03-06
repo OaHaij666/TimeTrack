@@ -1886,7 +1886,12 @@
                     </div>
 
                     <div class="chart-card">
-                        <div class="chart-title">本周专注趋势</div>
+                        <div class="chart-header">
+                            <div class="chart-title">本周专注趋势</div>
+                            <select id="weekChartTaskFilter" onchange="onWeekChartTaskChange()" style="padding: 6px 10px; background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: var(--radius-sm); font-size: 12px; color: var(--text-primary); cursor: pointer;">
+                                <option value="">全部任务</option>
+                            </select>
+                        </div>
                         <div class="chart-container">
                             <div class="week-chart" id="weekChart"></div>
                         </div>
@@ -2259,6 +2264,13 @@
             },
             isTaskHidden(taskName) {
                 return this.getHiddenTasks().includes(taskName);
+            },
+            // ========== 本周图表任务筛选 ==========
+            getWeekChartTaskFilter() {
+                return localStorage.getItem('weekChartTaskFilter') || '';
+            },
+            setWeekChartTaskFilter(taskName) {
+                localStorage.setItem('weekChartTaskFilter', taskName);
             },
             // 获取所有任务统计（按时长排序，时长相同按次数排序）
             getAllTaskStatsSorted() {
@@ -3064,6 +3076,9 @@
 
         // ==================== 统计页面 ====================
         function renderStatsPage() {
+            // 更新本周图表任务筛选下拉框
+            updateWeekChartTaskFilter();
+            
             const today = new Date();
             const todayStr = formatDate(today);
 
@@ -3205,13 +3220,21 @@
 
             const today = new Date();
             const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+            const selectedTask = document.getElementById('weekChartTaskFilter').value;
 
             for (let i = 0; i < 7; i++) {
                 const date = new Date(today);
                 date.setDate(today.getDate() - today.getDay() + i);
                 const dateStr = formatDate(date);
                 const dayTasks = DataManager.getTasksByDate(dateStr);
-                const daySeconds = dayTasks.reduce((sum, t) => 
+                
+                // 根据选择的任务筛选
+                let filteredTasks = dayTasks;
+                if (selectedTask) {
+                    filteredTasks = dayTasks.filter(t => t.name === selectedTask);
+                }
+                
+                const daySeconds = filteredTasks.reduce((sum, t) => 
                     sum + t.sessions.reduce((s, session) => s + session.duration, 0), 0);
                 const dayMinutes = Math.floor(daySeconds / 60);
                 const maxMinutes = 480;
@@ -3231,6 +3254,62 @@
                 `;
                 weekChart.appendChild(barWrapper);
             }
+        }
+
+        // 更新本周图表任务筛选下拉框
+        function updateWeekChartTaskFilter() {
+            const select = document.getElementById('weekChartTaskFilter');
+            if (!select) return;
+            
+            const savedTask = DataManager.getWeekChartTaskFilter();
+            
+            // 获取本周有专注时长的任务
+            const today = new Date();
+            const weekTasks = new Set();
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - today.getDay() + i);
+                const dateStr = formatDate(date);
+                const dayTasks = DataManager.getTasksByDate(dateStr);
+                
+                dayTasks.forEach(task => {
+                    const hasDuration = task.sessions.some(s => s.duration > 0);
+                    if (hasDuration) {
+                        weekTasks.add(task.name);
+                    }
+                });
+            }
+            
+            // 保存当前选择
+            const currentValue = select.value;
+            
+            // 重建选项列表
+            select.innerHTML = '<option value="">全部任务</option>';
+            
+            // 添加本周有数据的任务
+            Array.from(weekTasks).sort().forEach(taskName => {
+                const option = document.createElement('option');
+                option.value = taskName;
+                option.textContent = taskName;
+                select.appendChild(option);
+            });
+            
+            // 恢复选择（如果该任务仍在列表中）
+            if (savedTask && (weekTasks.has(savedTask) || savedTask === '')) {
+                select.value = savedTask;
+            } else {
+                select.value = '';
+                DataManager.setWeekChartTaskFilter('');
+            }
+        }
+
+        // 本周图表任务选择变化
+        function onWeekChartTaskChange() {
+            const select = document.getElementById('weekChartTaskFilter');
+            const selectedTask = select.value;
+            DataManager.setWeekChartTaskFilter(selectedTask);
+            renderWeekChart();
         }
 
         // 渲染任务数据（使用自定义日期范围）
